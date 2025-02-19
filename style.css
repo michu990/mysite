@@ -1,4 +1,5 @@
-body {
+body
+{
     background-color: black;
     color: lime;
     font-family: 'Courier New', Courier, monospace;
@@ -7,7 +8,8 @@ body {
     overflow: hidden;
 }
 
-#navbar {
+#navbar
+{
     background-color: #121212;
     padding: 10px;
     text-align: center;
@@ -15,24 +17,28 @@ body {
     z-index: 2;
 }
 
-#navbar a {
+#navbar a
+{
     color: lime;
     text-decoration: none;
     margin: 0 15px;
     font-weight: bold;
 }
 
-#navbar a:hover {
+#navbar a:hover
+{
     text-decoration: underline;
 }
 
-#content {
+#content
+{
     padding: 20px;
     position: relative;
     z-index: 2;
 }
 
-.body {
+.body
+{
     position: absolute;
     width: 100px;
     height: 100px;
@@ -41,7 +47,8 @@ body {
     z-index: 1;
 }
 
-footer {
+footer
+{
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -52,7 +59,8 @@ footer {
     z-index: 2;
 }
 
-footer a {
+footer a
+{
     color: lime;
     text-decoration: none;
 }
