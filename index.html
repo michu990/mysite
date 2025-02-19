@@ -1,75 +1,72 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
     <title>michu990</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- style -->
+    <style>
+        body 
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #imageButton 
+        {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <!-- Nav bar -->
-    <div id="navbar">
-        <a href="#home">Home</a>
-        <a href="#1">1</a>
-        <a href="#2">2</a>
-        <a href="#3">3</a>
-    </div>
 
-    <!-- Content -->
-    <div id="content">
-        <h1>Tutaj wstawić tekst</h1>
-        <p>Narazie nic tu nie ma - do zrobienia</p>
-        <p>xdd</p>
-    </div>
+     <!-- 3body simulation balls -->
+     <div id="body1" class="body"></div>
+     <div id="body2" class="body"></div>
+     <div id="body3" class="body"></div>
 
-    <!-- 3body simulation balls -->
-    <div id="body1" class="body"></div>
-    <div id="body2" class="body"></div>
-    <div id="body3" class="body"></div>
-
-    <!-- Footer -->
-    <footer id="footer">
-        by michu990 | hosted on <a href="https://mikr.us/?r=bf733994" target="_blank" rel="noopener noreferrer">MIKR.US </a></p>
-        <p class="tbp"></p>Three Body Problem simulation by <a href="https://github.com/SolbiatiAlessandro/three-body" target="_blank" rel="noopener noreferrer">Alessandro Solbiati </p>
-        <!-- <div id="time"></div>  -->
-    </footer>
-
-    <!-- 3body script -->
+       <!-- 3body script -->
     <script src="three_body.js"></script>
     <div id="app">
         <div id="three-body-animation" state="on"></div>
 
-    </div>
-
-    <!-- Time script -->
-    <script>
-        function startTime() {
-            var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);		
-            document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
-            var t = setTimeout(function(){ startTime() }, 500);
-        }
-        
-        function checkTime(i) {
-            if (i < 10) { i = "0" + i };
-            return i;
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            startTime();
-        });
-    </script>
-
-    <!-- 3body script on/off -->
+        <!-- 3body script on/off -->
     <script>
         const threeBodyAnimationOn = function () {
           const state = document.getElementById("three-body-animation").getAttribute("state");
           return state === "on";
         }
       </script>
+
+    </div>
+    <!-- audio source -->
+    <audio id="audio" src="media/sounds/doormove10.wav" type="audio/wav"></audio>
+    
+    <!-- button -->
+    <a id="imageButton" href="welcome.html" style="cursor: pointer;">
+        <img src="media/gifs/cube.gif"/><br><br>
+    </a>
+    <!-- audio script -->
+    <script>
+        function playAudio()
+        {
+            var audio = document.getElementById("audio");
+            audio.play();
+        }
+        document.getElementById('imageButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            playAudio();
+            setTimeout(function()
+            {
+                window.location.href = 'welcome.html'; 
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
