@@ -1,2 +1,2 @@
 # mysite
-My www site
+My www site purely for fun.
