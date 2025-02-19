@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
+    
+    <!-- css -->
+    <style>
+        #video-container
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+
+        video
+        {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        #video-controls
+        {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        #video-controls button
+        {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <div id="navbar">
+        <a href="welcome.html">home</a>
+        <a href="empty">empty</a>
+        <a href="empty">empty</a>
+        <a href="secret.html">secret</a>
+    </div>
+
+    <!-- 3body simulation balls -->
+        <div id="body1" class="body"></div>
+        <div id="body2" class="body"></div>
+        <div id="body3" class="body"></div>
+    
+    <!-- Video -->
+    <div id="video-container">
+        <video id="kurtyzana" controls>
+            <source src="media/videos/bcs.mp4" type="video/mp4">
+            Error.
+        </video>
+
+
+    <!-- Footer -->
+         <footer id="footer">
+        <p>by michu990 | hosted on <a href="https://mikr.us/?r=bf733994" target="_blank" rel="noopener noreferrer">MIKR.US </a></p>
+        <p><p class="tbp">Three Body Problem simulation by <a href="https://github.com/SolbiatiAlessandro/three-body" target="_blank" rel="noopener noreferrer">Alessandro Solbiati </p>
+        <!-- <div id="time"></div>  --> 
+
+    <!-- 3body script -->
+    <script src="three_body.js"></script>
+    <div id="app">
+        <div id="three-body-animation" state="on"></div>
+    </div>
+
+    <!-- Video script -->
+    <script>
+        const video = document.getElementById("kurtyzana");
+
+        function playPause() 
+        {
+            if (video.paused) 
+            {
+                video.play();
+            } else 
+            {
+                video.pause();
+            }
+        }
+        function stopVideo() 
+        {
+            video.pause();
+            video.currentTime = 0;
+        }
+    </script>
+
+        <!-- 3body script on/off -->
+        <script>
+            const threeBodyAnimationOn = function () {
+              const state = document.getElementById("three-body-animation").getAttribute("state");
+              return state === "on";
+            }
+          </script>
+</body>
+</html>

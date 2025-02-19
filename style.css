@@ -10,7 +10,7 @@ body
 
 #navbar
 {
-    background-color: #121212;
+    background-color: #000000;
     padding: 10px;
     text-align: center;
     position: relative;
@@ -32,6 +32,7 @@ body
 
 #content
 {
+    text-align: center;
     padding: 20px;
     position: relative;
     z-index: 2;
@@ -68,4 +69,72 @@ footer a
 footer a:hover
 {
     text-decoration: underline;
+}
+
+#error-container
+{
+    max-width: 600px;
+    padding: 20px;
+    background-color: #12121200;
+    border-radius: 10px;;
+    text-align: center;
+    z-index: 2;
+}
+#error-container h1
+{
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: lime;
+}
+#error-container p
+{
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: lime;
+}
+#error-container img
+{
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+#error-container a
+{
+    color: lime;
+    text-decoration: none;
+    font-weight: bold;
+}
+#error-container a:hover
+{
+    text-decoration: underline;
+}
+
+#imageButton 
+{
+    text-align: center;
+}
+
+#pagetext 
+{
+    text-align: center;
+}
+
+#Text 
+{
+    margin-top: 20px;
+}
+
+input[type=password] 
+{
+    width: 170px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid lime;
+    border-radius: 0px;
+    box-sizing: border-box;
+    border-style: solid;
+    box-shadow: inset 0px 0px 0px 0px rgb(255, 255, 255);
+    background-color: black;
+    outline: none;
+    color: white;
 }

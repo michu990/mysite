@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="skeleton.png">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>
+
+</head>
+    <!-- css -->
     <style>
-        /* 404 styles */
         body
         {
             display: flex;
@@ -20,43 +22,7 @@
             font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
         }
-        #error-container
-        {
-            max-width: 600px;
-            padding: 20px;
-            background-color: #12121200;
-            border-radius: 10px;;
-            text-align: center;
-            z-index: 2;
-        }
-        #error-container h1
-        {
-            font-size: 3em;
-            margin-bottom: 20px;
-            color: lime;
-        }
-        #error-container p
-        {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            color: lime;
-        }
-        #error-container img
-        {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        #error-container a
-        {
-            color: lime;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        #error-container a:hover
-        {
-            text-decoration: underline;
-        }
+
     </style>
 </head>
 <body>
@@ -66,25 +32,6 @@
         <img src="https://http.cat/images/404.jpg" alt="Error 404 Image">
         <p><a href="https://michu990.me/" id="go-back-link">Go back!</a></p>
     </div>
-
-    <!-- 3body simulation balls -->
-    <div id="body1" class="body"></div>
-    <div id="body2" class="body"></div>
-    <div id="body3" class="body"></div>
-
-    <!-- 3body script -->
-    <script src="three_body.js"></script>
-    <div id="app">
-        <div id="three-body-animation" state="on"></div>
-    </div>
-
-    <!-- 3body script on/off -->
-    <script>
-        const threeBodyAnimationOn = function () {
-          const state = document.getElementById("three-body-animation").getAttribute("state");
-          return state === "on";
-        }
-    </script>
 
     <!-- Script to close current window and open new one -->
     <script>
