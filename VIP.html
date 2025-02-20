@@ -47,16 +47,11 @@
     <!-- Nav bar -->
     <div id="navbar">
         <a href="welcome.html">home</a>
-        <a href="empty">empty</a>
+        <a href="tesseract.html">tesseract</a>
         <a href="empty">empty</a>
         <a href="secret.html">secret</a>
     </div>
 
-    <!-- 3body simulation balls -->
-        <div id="body1" class="body"></div>
-        <div id="body2" class="body"></div>
-        <div id="body3" class="body"></div>
-    
     <!-- Video -->
     <div id="video-container">
         <video id="kurtyzana" controls>
@@ -69,13 +64,6 @@
 <footer id="footer">
     <p>by <a href="https://github.com/michu990" target="_blank" rel="noopener noreferrer">michu990</a> | hosted on <a href="https://mikr.us/?r=bf733994" target="_blank" rel="noopener noreferrer">MIKR.US </a></p>
     <p><p class="tbp">Three Body Problem simulation by <a href="https://github.com/SolbiatiAlessandro/three-body" target="_blank" rel="noopener noreferrer">Alessandro Solbiati </p>
-    <!-- <div id="time"></div>  --> 
-
-    <!-- 3body script -->
-    <script src="three_body.js"></script>
-    <div id="app">
-        <div id="three-body-animation" state="on"></div>
-    </div>
 
     <!-- Video script -->
     <script>
@@ -97,13 +85,5 @@
             video.currentTime = 0;
         }
     </script>
-
-        <!-- 3body script on/off -->
-        <script>
-            const threeBodyAnimationOn = function () {
-              const state = document.getElementById("three-body-animation").getAttribute("state");
-              return state === "on";
-            }
-          </script>
 </body>
 </html>
