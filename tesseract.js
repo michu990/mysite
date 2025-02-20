@@ -6,7 +6,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Define the vertices of a tesseract (4D cube)
-const vertices = [
+const vertices = 
+[
     [-1, -1, -1, -1], [1, -1, -1, -1], [1, 1, -1, -1], [-1, 1, -1, -1],
     [-1, -1, 1, -1], [1, -1, 1, -1], [1, 1, 1, -1], [-1, 1, 1, -1],
     [-1, -1, -1, 1], [1, -1, -1, 1], [1, 1, -1, 1], [-1, 1, -1, 1],
@@ -14,7 +15,8 @@ const vertices = [
 ];
 
 // Function to rotate a 4D point in a given plane
-function rotate4D(vertex, angleXY, angleXZ, angleXW, angleYZ, angleYW, angleZW) {
+function rotate4D(vertex, angleXY, angleXZ, angleXW, angleYZ, angleYW, angleZW) 
+{
     const [x, y, z, w] = vertex;
 
     // Rotate in XY plane
@@ -63,10 +65,12 @@ function rotate4D(vertex, angleXY, angleXZ, angleXW, angleYZ, angleYW, angleZW) 
 }
 
 // Project 4D vertices into 3D space
-function project4DTo3D(vertex) {
+function project4DTo3D(vertex) 
+{
     const [x, y, z, w] = vertex;
     const scale = 2 / (4 + w); // Perspective projection
-    return new THREE.Vector3(
+    return new THREE.Vector3
+    (
         x * scale,
         y * scale,
         z * scale
@@ -74,7 +78,8 @@ function project4DTo3D(vertex) {
 }
 
 // Create lines connecting the vertices
-const edges = [
+const edges = 
+[
     [0, 1], [1, 2], [2, 3], [3, 0], // Bottom face
     [4, 5], [5, 6], [6, 7], [7, 4], // Top face
     [0, 4], [1, 5], [2, 6], [3, 7], // Vertical edges
@@ -88,7 +93,8 @@ const edges = [
 const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
 const lines = [];
 
-edges.forEach(edge => {
+edges.forEach(edge => 
+    {
     const points = [];
     points.push(project4DTo3D(vertices[edge[0]]));
     points.push(project4DTo3D(vertices[edge[1]]));
@@ -106,7 +112,8 @@ let angleXY = 0, angleXZ = 0, angleXW = 0, angleYZ = 0, angleYW = 0, angleZW = 0
 let movementX = 0, movementY = 0, movementZ = 0, movementW = 0;
 
 // Animation loop
-function animate() {
+function animate() 
+{
     requestAnimationFrame(animate);
 
     // Update rotation angles
@@ -124,18 +131,21 @@ function animate() {
     movementW += (Math.random() - 0.5) * 0.02;
 
     // Rotate and move the tesseract
-    lines.forEach((line, index) => {
+    lines.forEach((line, index) => 
+        {
         const edge = edges[index];
         const points = [];
         const rotatedVertex1 = rotate4D(vertices[edge[0]], angleXY, angleXZ, angleXW, angleYZ, angleYW, angleZW);
         const rotatedVertex2 = rotate4D(vertices[edge[1]], angleXY, angleXZ, angleXW, angleYZ, angleYW, angleZW);
-        const movedVertex1 = [
+        const movedVertex1 = 
+        [
             rotatedVertex1[0] + movementX,
             rotatedVertex1[1] + movementY,
             rotatedVertex1[2] + movementZ,
             rotatedVertex1[3] + movementW
         ];
-        const movedVertex2 = [
+        const movedVertex2 = 
+        [
             rotatedVertex2[0] + movementX,
             rotatedVertex2[1] + movementY,
             rotatedVertex2[2] + movementZ,
