@@ -11,7 +11,7 @@
     <!-- Nav bar -->
     <div id="navbar">
         <a href="welcome.html">home</a>
-        <a href="#1">empty</a>
+        <a href="tesseract.html">tesseract</a>
         <a href="#2">empty</a>
         <a href="secret.html">secret</a>
     </div>
@@ -43,7 +43,8 @@
 
     <!-- Time script -->
     <script>
-        function startTime() {
+        function startTime() 
+        {
             var today = new Date();
             var h = today.getHours();
             var m = today.getMinutes();
@@ -54,19 +55,22 @@
             var t = setTimeout(function(){ startTime() }, 500);
         }
         
-        function checkTime(i) {
+        function checkTime(i) 
+        {
             if (i < 10) { i = "0" + i };
             return i;
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() 
+        {
             startTime();
         });
     </script>
 
     <!-- 3body script on/off -->
     <script>
-        const threeBodyAnimationOn = function () {
+        const threeBodyAnimationOn = function () 
+        {
           const state = document.getElementById("three-body-animation").getAttribute("state");
           return state === "on";
         }
