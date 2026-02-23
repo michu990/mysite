@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,17 +19,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+	    flex-direction: column;
         }
-    </style>
+    </style> 
 </head>
 <body>
     <!-- Audio source -->
     <audio id="audio" src="media/sounds/doormove10.wav" type="audio/wav"></audio>
     
     <!-- Button -->
-    <a id="imageButton" href="welcome.html" style="cursor: pointer;">
-        <img src="media/gifs/cube.gif"/><br><br>
+    <a id="cube" href="welcome.html" style="cursor: pointer;">
+        <img src="media/gifs/cube.gif"/>
     </a>
+	
+    <!-- Second button -->
+    <a id="click_me" href="welcome.html" style="cursor: pointer; display: inline-block; text-align: center; margin-top: 10px;">
+        <img src="media/gifs/click_me.gif"/><br><br>
+    </a>
+
     <!-- Audio script -->
     <script>
         function playAudio()
@@ -36,7 +44,7 @@
             var audio = document.getElementById("audio");
             audio.play();
         }
-        document.getElementById('imageButton').addEventListener('click', function(event) 
+        document.getElementById('cube').addEventListener('click', function(event) 
         {
             event.preventDefault();
             playAudio();
@@ -46,5 +54,23 @@
             }, 2000);
         });
     </script>
+
+    <script>
+        function playAudio()
+        {
+            var audio = document.getElementById("audio");
+            audio.play();
+        }
+        document.getElementById('click_me').addEventListener('click', function(event)
+        {
+            event.preventDefault();
+            playAudio();
+            setTimeout(function()
+            {
+                window.location.href = 'welcome.html';
+            }, 2000);
+        });
+    </script>
+
 </body>
 </html>
