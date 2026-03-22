@@ -15,7 +15,7 @@
         <a href="secret">secret</a>
 	<a href="terminal">terminal</a>
         <a href="soma">soma</a>
-
+	<a href="solarsystem">solar system</a>
     </div>
 
     <!-- soma -->
@@ -43,3 +43,6 @@ You would dream the dream of living the life that you are actually living today.
         <p>To be continued...</p>
     </div>
 
+	<!-- gif -->
+	<div id='skeleton' style="text-align: center;">
+	<p><img src="media/gifs/trumpet2.gif" width="600" height="500"</p>

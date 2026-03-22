@@ -2,28 +2,403 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>tesseract</title>
     <link rel="stylesheet" href="style.css">
-    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
     <style>
-        body { margin: 0; }
-        canvas { display: block; }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .control-panel {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            z-index: 20;
+            font-family: 'Courier New', monospace;
+        }
+        
+        button {
+            background: #32ff32;
+            border: none;
+            color: black;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: all 0.15s ease;
+        }
+        
+        button:hover {
+            background: #1aac1a;
+            transform: scale(1.02);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .speed-label {
+            color: #32ff32;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100px;
+            cursor: pointer;
+            background: #1a3a1a;
+            height: 3px;
+            border-radius: 2px;
+            -webkit-appearance: none;
+            border: none;
+        }
+        
+        input:focus {
+            outline: none;
+        }
+        
+        input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            background: #32ff32;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .speed-value {
+            color: #32ff32;
+            font-size: 10px;
+            min-width: 32px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .control-panel { 
+                gap: 8px;
+                padding: 6px 10px;
+            }
+            input { width: 80px; }
+            button { padding: 3px 10px; font-size: 10px; }
+            .speed-label, .speed-value { font-size: 9px; }
+        }
     </style>
 </head>
-<body>
 
+<body>
     <!-- Nav bar -->
     <div id="navbar">
         <a href="welcome">home</a>
         <a href="tesseract">tesseract</a>
         <a href="/piwnica">piwnica</a>
         <a href="secret">secret</a>
-        <a href="terminal">terminal</a>
+	<a href="terminal">terminal</a>
         <a href="soma">soma</a>
-
+	<a href="solarsystem">solar system</a>
     </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="tesseract.js"></script>
+
+    <!-- Minimal Control Panel -->
+    <div class="control-panel">
+        <button id="toggleRotateBtn">pause</button>
+        <div class="speed-control">
+            <span class="speed-label">speed</span>
+            <input type="range" id="speedSlider" min="0" max="0.5" step="0.005" value="0.25">
+            <span id="speedValue" class="speed-value">0.25</span>
+        </div>
+    </div>
+
+    <!-- Import Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
+        scene.fog = null;
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(0x000000, 1);
+        document.body.appendChild(renderer.domElement);
+        
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(3, 2, 5);
+        camera.lookAt(0, 0, 0);
+        
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.25;
+        controls.enableZoom = true;
+        controls.enablePan = false;
+        controls.zoomSpeed = 1.0;
+        controls.target.set(0, 0, 0);
+        
+        const renderScene = new RenderPass(scene, camera);
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.3, 0.85);
+        bloomPass.threshold = 0.1;
+        bloomPass.strength = 0.9;
+        bloomPass.radius = 0.5;
+        
+        const effectComposer = new EffectComposer(renderer);
+        effectComposer.addPass(renderScene);
+        effectComposer.addPass(bloomPass);
+        
+        const vertices4D = [];
+        for (let i = 0; i < 16; i++) {
+            const x = (i & 1) ? 1 : -1;
+            const y = (i & 2) ? 1 : -1;
+            const z = (i & 4) ? 1 : -1;
+            const w = (i & 8) ? 1 : -1;
+            vertices4D.push(new THREE.Vector4(x, y, z, w));
+        }
+        
+        const edgesIndices = [];
+        for (let i = 0; i < 16; i++) {
+            for (let j = i+1; j < 16; j++) {
+                let diff = 0;
+                const v1 = vertices4D[i];
+                const v2 = vertices4D[j];
+                if (v1.x !== v2.x) diff++;
+                if (v1.y !== v2.y) diff++;
+                if (v1.z !== v2.z) diff++;
+                if (v1.w !== v2.w) diff++;
+                if (diff === 1) edgesIndices.push([i, j]);
+            }
+        }
+        
+        let angleXY = 0;
+        let angleZW = 0;
+        const internalSpeedXY = 0.008;
+        const internalSpeedZW = 0.005;
+        let globalInternalSpeedMultiplier = 0.25;
+        
+        const tesseractGroup = new THREE.Group();
+        scene.add(tesseractGroup);
+        
+        let lineGeometry = new THREE.BufferGeometry();
+        const edgeCount = edgesIndices.length;
+        const positionsArray = new Float32Array(edgeCount * 2 * 3);
+        lineGeometry.setAttribute('position', new THREE.BufferAttribute(positionsArray, 3));
+        
+        const lineMaterial = new THREE.LineBasicMaterial({ 
+            color: 0x32ff32, 
+            transparent: false,
+            linewidth: 1
+        });
+        
+        const lineMaterial2 = new THREE.LineBasicMaterial({
+            color: 0x1aac1a,
+            transparent: true,
+            opacity: 0.35
+        });
+        
+        const tesseractLines = new THREE.LineSegments(lineGeometry, lineMaterial);
+        const tesseractLines2 = new THREE.LineSegments(lineGeometry.clone(), lineMaterial2);
+        tesseractGroup.add(tesseractLines);
+        tesseractGroup.add(tesseractLines2);
+        
+        const vertexGeometry = new THREE.SphereGeometry(0.045, 8, 8);
+        const vertexMaterial = new THREE.MeshStandardMaterial({
+            color: 0x32ff32,
+            emissive: 0x1a8c1a,
+            emissiveIntensity: 0.6,
+            transparent: false,
+            metalness: 0.7,
+            roughness: 0.2
+        });
+        
+        const vertexSpheres = [];
+        for (let i = 0; i < 16; i++) {
+            const sphere = new THREE.Mesh(vertexGeometry, vertexMaterial.clone());
+            tesseractGroup.add(sphere);
+            vertexSpheres.push(sphere);
+        }
+        
+        function rotate4D(point, angleXY, angleZW) {
+            let x = point.x, y = point.y, z = point.z, w = point.w;
+            const cosXY = Math.cos(angleXY);
+            const sinXY = Math.sin(angleXY);
+            const x1 = x * cosXY - y * sinXY;
+            const y1 = x * sinXY + y * cosXY;
+            const z1 = z;
+            const w1 = w;
+            
+            const cosZW = Math.cos(angleZW);
+            const sinZW = Math.sin(angleZW);
+            const x2 = x1;
+            const y2 = y1;
+            const z2 = z1 * cosZW - w1 * sinZW;
+            const w2 = z1 * sinZW + w1 * cosZW;
+            
+            return new THREE.Vector4(x2, y2, z2, w2);
+        }
+        
+        function project4DTo3D(point4D, distance = 2.2) {
+            const w = point4D.w;
+            const inv = 1.0 / (distance + w);
+            return new THREE.Vector3(point4D.x * inv, point4D.y * inv, point4D.z * inv);
+        }
+        
+        const globalScale = 1.4;
+        
+        function updateTesseract() {
+            const rotated4D = vertices4D.map(v => rotate4D(v, angleXY, angleZW));
+            const projected3D = rotated4D.map(v => project4DTo3D(v, 2.0));
+            projected3D.forEach(p => {
+                p.x *= globalScale;
+                p.y *= globalScale;
+                p.z *= globalScale;
+            });
+            
+            const positionsAttr = lineGeometry.attributes.position;
+            const array = positionsAttr.array;
+            let idx = 0;
+            for (let edge of edgesIndices) {
+                const p1 = projected3D[edge[0]];
+                const p2 = projected3D[edge[1]];
+                array[idx] = p1.x; array[idx+1] = p1.y; array[idx+2] = p1.z;
+                array[idx+3] = p2.x; array[idx+4] = p2.y; array[idx+5] = p2.z;
+                idx += 6;
+            }
+            positionsAttr.needsUpdate = true;
+            
+            for (let i = 0; i < vertexSpheres.length; i++) {
+                const pos = projected3D[i];
+                vertexSpheres[i].position.set(pos.x, pos.y, pos.z);
+                vertexSpheres[i].material.emissiveIntensity = 0.5 + Math.sin(Date.now() * 0.005 + i) * 0.3;
+            }
+            
+            if (tesseractLines2.geometry) {
+                const posAttr2 = tesseractLines2.geometry.attributes.position;
+                if (posAttr2) {
+                    posAttr2.array.set(array);
+                    posAttr2.needsUpdate = true;
+                }
+            }
+        }
+        
+        const gridHelper = new THREE.GridHelper(7, 20, 0x32ff32, 0x1a5a1a);
+        gridHelper.material.transparent = true;
+        gridHelper.material.opacity = 0.15;
+        gridHelper.position.y = -1.3;
+        scene.add(gridHelper);
+        
+        const ambientLight = new THREE.AmbientLight(0x111111);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0x32ff32, 0.6);
+        pointLight.position.set(2, 3, 4);
+        scene.add(pointLight);
+        const backLight = new THREE.PointLight(0x1a8c1a, 0.4);
+        backLight.position.set(-2, 1, -3);
+        scene.add(backLight);
+        const fillLight = new THREE.PointLight(0x32ff32, 0.3);
+        fillLight.position.set(1, 2, 2);
+        scene.add(fillLight);
+        
+        const toggleBtn = document.getElementById('toggleRotateBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValueSpan = document.getElementById('speedValue');
+        
+        let isAutoRotating = true;
+        
+        function updateAutoRotateUI() {
+            if (isAutoRotating) {
+                toggleBtn.innerHTML = 'start';
+            } else {
+                toggleBtn.innerHTML = 'pause';
+            }
+            controls.autoRotate = isAutoRotating;
+        }
+        
+        toggleBtn.addEventListener('click', () => {
+            isAutoRotating = !isAutoRotating;
+            updateAutoRotateUI();
+        });
+        
+        speedSlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            speedValueSpan.innerText = val.toFixed(2);
+            controls.autoRotateSpeed = val;
+            globalInternalSpeedMultiplier = val;
+        });
+        
+        controls.autoRotateSpeed = 0.25;
+        globalInternalSpeedMultiplier = 0.25;
+        updateAutoRotateUI();
+        
+        let lastTimestamp = performance.now();
+        
+        function animate() {
+            const now = performance.now();
+            let delta = Math.min(0.033, (now - lastTimestamp) / 1000);
+            lastTimestamp = now;
+            
+            const effectiveSpeedXY = internalSpeedXY * globalInternalSpeedMultiplier;
+            const effectiveSpeedZW = internalSpeedZW * globalInternalSpeedMultiplier;
+            
+            angleXY += effectiveSpeedXY;
+            angleZW += effectiveSpeedZW;
+            if (angleXY > Math.PI * 2) angleXY -= Math.PI * 2;
+            if (angleZW > Math.PI * 2) angleZW -= Math.PI * 2;
+            
+            updateTesseract();
+            
+            fillLight.intensity = 0.3 + Math.sin(Date.now() * 0.004) * 0.15;
+            pointLight.intensity = 0.5 + Math.sin(Date.now() * 0.0025) * 0.15;
+            
+            controls.update();
+            effectComposer.render();
+            
+            requestAnimationFrame(animate);
+        }
+        
+        updateTesseract();
+        
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            effectComposer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        animate();
+    </script>
 </body>
 </html>
