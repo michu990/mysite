@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blackbox 0.14.0-5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            font-family: monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .terminal {
+            background: #000;
+            border: 1px solid #00ff00;
+            border-radius: 0;
+            width: 100%;
+            max-width: 900px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .terminal-output p {
+            margin: 5px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .command-line {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #00ff00;
+            position: relative;
+        }
+        
+        .prompt {
+            color: #00ff00;
+            margin-right: 10px;
+        }
+        
+        .prompt-user {
+            color: #00ff00;
+        }
+        
+        .prompt-at {
+            color: #00aa00;
+        }
+        
+        .prompt-host {
+            color: #00ff00;
+        }
+        
+        .prompt-path {
+            color: #00aa00;
+        }
+        
+        .prompt-dollar {
+            color: #00ff00;
+        }
+        
+        .command-input {
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 0.9em;
+            flex: 1;
+            outline: none;
+        }
+        
+        .command-input::placeholder {
+            color: #006600;
+        }
+        
+        .input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .command-input {
+            width: 100%;
+        }
+        
+        .terminal-output::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .terminal-output::-webkit-scrollbar-track {
+            background: #000;
+        }
+        
+        .terminal-output::-webkit-scrollbar-thumb {
+            background: #00ff00;
+        }
+        
+        .debian-red {
+            color: #d70751;
+        }
+        
+        .prompt-input {
+            color: #00ff00;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-output" id="output">
+            <p>blackbox 0.14.0-5</p>
+            <p>type 'help' to see available commands</p>
+            <p>---</p>
+        </div>
+        
+        <div class="command-line">
+            <span class="prompt">
+                <span class="prompt-user">guest</span>
+                <span class="prompt-at">@</span>
+                <span class="prompt-host">michu990</span>
+                <span class="prompt-path">:~</span>
+                <span class="prompt-dollar">$</span>
+            </span>
+            <div class="input-wrapper">
+                <input type="text" class="command-input" id="commandInput" autofocus>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const output = document.getElementById('output');
+        const commandInput = document.getElementById('commandInput');
+        
+        let waitingForMatrixConfirm = false;
+        
+        function addLine(text) {
+            const p = document.createElement('p');
+            p.innerHTML = text;
+            output.appendChild(p);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function askMatrixConfirmation() {
+            addLine('enter matrix? (y/N): ');
+            waitingForMatrixConfirm = true;
+            commandInput.disabled = false;
+            commandInput.focus();
+        }
+        
+        const commands = {
+            help: function() {
+                return [
+                    'available commands:',
+                    '  help     - show this message',
+                    '  date     - display current date and time',
+                    '  fortune  - random wisdom',
+                    '  sudo     - super user do',
+                    '  hack     - hack the world!',
+                    '  matrix   - enter the matrix',
+                    '  say [x]  - echo your message',
+                    '  clear    - clear screen',
+                    '  exit     - exit the shell',
+                    '  whoami   - current user',
+                    '  uptime   - system uptime',
+                    '  neofetch - system info'
+                ].join('\n');
+            },
+            
+            date: function() {
+                return new Date().toString();
+            },
+            
+            fortune: function() {
+                const fortunes = [
+                    "you will find a lost sock tomorrow.",
+                    "a bug in your code will fix itself.",
+                    "your coffee will be the perfect temperature.",
+                    "you will remember that thing you forgot yesterday.",
+                    "the answer is 42.",
+                    "a stranger will wave at you. they meant to wave at someone else.",
+                    "your terminal is fake. you already knew that."
+                ];
+                return fortunes[Math.floor(Math.random() * fortunes.length)];
+            },
+            
+            sudo: function() {
+                return "sudo: command not found. you do not have superuser privileges.";
+            },
+            
+            hack: function() {
+                const lines = [
+                    "initializing hack sequence...",
+                    "bypassing firewall...",
+                    "cracking passwords...",
+                    "accessing mainframe...",
+                    "downloading data...",
+                    "hack failed: you need to install more ram."
+                ];
+                let delay = 0;
+                lines.forEach(line => {
+                    setTimeout(() => {
+                        this.addLine(line);
+                    }, delay);
+                    delay += 500;
+                });
+                return null;
+            },
+            
+            matrix: function() {
+                askMatrixConfirmation();
+                return null;
+            },
+            
+            say: function(args) {
+                if(!args || args.length === 0) {
+                    return "say what?";
+                }
+                return args.join(' ');
+            },
+            
+            clear: function() {
+                output.innerHTML = '<p>screen cleared.</p>';
+                return null;
+            },
+            
+            exit: function() {
+                window.location.href = "https://michu990.me/welcome";
+                return null;
+            },
+            
+            whoami: function() {
+                return "guest";
+            },
+            
+            uptime: function() {
+                const hours = Math.floor(Math.random() * 48);
+                const minutes = Math.floor(Math.random() * 60);
+                return `up ${hours} hours, ${minutes} minutes. load average: ${(Math.random() * 2).toFixed(2)}, ${(Math.random() * 2).toFixed(2)}, ${(Math.random() * 2).toFixed(2)}`;
+            },
+            
+            neofetch: function() {
+                return [
+                    '<span class="debian-red">       _,met$$$$$gg.</span>           guest@michu990',
+                    '<span class="debian-red">    ,g$$$$$$$$$$$$$$$P.</span>        ---------------',
+                    '<span class="debian-red">  ,g$$P"       """Y$$$.</span>        OS: Debian GNU/Linux 12 (bookworm)',
+                    '<span class="debian-red"> ,$$P\'              `$$$.</span>      Host: michu990',
+                    '<span class="debian-red">\',$$P       ,ggs.     `$$b:</span>    Kernel: 5.10.0-27-amd64',
+                    '<span class="debian-red">`d$$\'     ,$P"\'   .    $$$</span>     Uptime: ' + Math.floor(Math.random() * 48) + ' hours, ' + Math.floor(Math.random() * 60) + ' minutes',
+                    '<span class="debian-red"> $$P      d$\'     ,    $$P</span>     Shell: bash 6.9',
+                    '<span class="debian-red"> $$:      $$.   -    ,d$$\'</span>     Terminal: xterm',
+                    '<span class="debian-red"> $$;      Y$b._   _,d$P\'</span>       CPU: Intel Pentium III (733MHz)',
+                    '<span class="debian-red"> Y$$.    `.`"Y$$$$P"\'</span>          Memory: 564MB / 16GB',
+                    '<span class="debian-red"> `$$b      "-.__</span>               Disk: 2.3GB / 15GB',
+                    '<span class="debian-red">  `Y$$</span>                         Swap: 512MB',
+                    '<span class="debian-red">   `Y$$.</span>                       Local IP: 192.168.1.69',
+                    '<span class="debian-red">     `$$b.</span>                    ',
+                    '<span class="debian-red">       `Y$$b.</span>                 ',
+                    '<span class="debian-red">          `"Y$b._</span>             ',
+                    '<span class="debian-red">              `"""</span>           '
+                ].join('\n');
+            }
+        };
+        
+        function processCommand(input) {
+            const trimmed = input.trim().toLowerCase();
+            if(trimmed === '') return;
+            
+            if(waitingForMatrixConfirm) {
+                waitingForMatrixConfirm = false;
+                addLine(`${input}`);
+                if(trimmed === 'y' || trimmed === 'yes') {
+                    addLine('entering the matrix...');
+                    setTimeout(() => {
+                        window.location.href = "https://michu990.me/matrix";
+                    }, 1000);
+                } else {
+                    addLine('matrix access denied. staying in the real world.');
+                }
+                return;
+            }
+            
+            addLine(`guest@michu990:~$ ${input}`);
+            
+            const parts = trimmed.split(' ');
+            const cmd = parts[0];
+            const args = parts.slice(1);
+            
+            if(commands[cmd]) {
+                const result = commands[cmd].call({addLine: addLine}, args);
+                if(result !== null) {
+                    if(Array.isArray(result)) {
+                        result.forEach(line => addLine(line));
+                    } else {
+                        addLine(result);
+                    }
+                }
+            } else {
+                addLine(`command not found: ${cmd}. type 'help' for available commands.`);
+            }
+        }
+        
+        commandInput.addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                const input = commandInput.value;
+                processCommand(input);
+                commandInput.value = '';
+            }
+        });
+        
+        commandInput.focus();
+        
+        document.addEventListener('click', function() {
+            commandInput.focus();
+        });
+    </script>
+</body>
+</html>

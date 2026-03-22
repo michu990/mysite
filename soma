@@ -1,4 +1,26 @@
-"Let's suppose that you were able every night to dream any dream that you wanted to dream.
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>... --- -- .-</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
+</head>
+
+    <!-- Nav bar -->
+    <div id="navbar">
+        <a href="welcome">home</a>
+        <a href="tesseract">tesseract</a>
+        <a href="/piwnica">piwnica</a>
+        <a href="secret">secret</a>
+	<a href="terminal">terminal</a>
+        <a href="soma">soma</a>
+
+    </div>
+
+    <!-- soma -->
+    <div id="soma">
+        <p>"Let's suppose that you were able every night to dream any dream that you wanted to dream.
 And that you could, for example, have the power within one night to dream 75 years of time.
 Or any length of time you wanted to have.
 And you would, naturally as you began on this adventure of dreams, you would fulfill all your wishes.
@@ -11,4 +33,13 @@ And you would dig that and come out of that and say "Wow, that was a close shave
 And then you would get more and more adventurous, and you would make further and further out gambles as to what you would dream.
 And finally, you would dream ... where you are now.
 You would dream the dream of living the life that you are actually living today."
- - Alan Watts 
+ - Alan Watts</p>
+    </div>
+
+    </div>
+
+    <!-- next text  -->
+    <div id="tbc">
+        <p>To be continued...</p>
+    </div>
+

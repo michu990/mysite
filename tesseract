@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tesseract</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <div id="navbar">
+        <a href="welcome">home</a>
+        <a href="tesseract">tesseract</a>
+        <a href="/piwnica">piwnica</a>
+        <a href="secret">secret</a>
+        <a href="terminal">terminal</a>
+        <a href="soma">soma</a>
+
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="tesseract.js"></script>
+</body>
+</html>

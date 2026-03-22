@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <div id="navbar">
+        <a href="welcome">home</a>
+        <a href="tesseract">tesseract</a>
+        <a href="/piwnica">piwnica</a>
+        <a href="secret">secret</a>
+	<a href="terminal">terminal</a>
+        <a href="soma">soma</a>
+
+    </div>
+
+	<!-- Content -->
+	<div
+	</div>
+
+    <!-- 3body simulation balls -->
+    <div id="body1" class="body"></div>
+    <div id="body2" class="body"></div>
+    <div id="body3" class="body"></div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p>by <a href="https://github.com/michu990" target="_blank" rel="noopener noreferrer">michu990</a> | hosted on <a href="https://mikr.us/?r=michu990" target="_blank" rel="noopener noreferrer">MIKR.US </a></p>
+        <p><p class="tbp">Three Body Problem simulation by <a href="https://github.com/SolbiatiAlessandro/three-body" target="_blank" rel="noopener noreferrer">Alessandro Solbiati </p></a> 
+
+    <!-- 3body script -->
+    <script src="three_body.js"></script>
+    <div id="app">
+        <div id="three-body-animation" state="on"></div>
+
+    </div>
+
+    <!-- 3body script on/off -->
+    <script>
+        const threeBodyAnimationOn = function () 
+        {
+          const state = document.getElementById("three-body-animation").getAttribute("state");
+          return state === "on";
+        }
+      </script>
+</body>
+</html>

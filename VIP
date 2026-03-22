@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
+    
+    <!-- css -->
+    <style>
+        #video-container
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+
+        video
+        {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        #video-controls
+        {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        #video-controls button
+        {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .corner-image {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 100px;
+            height: 150px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <div id="navbar">
+        <a href="welcome">home</a>
+        <a href="tesseract">tesseract</a>
+        <a href="/piwnica">piwnica</a>
+        <a href="secret">secret</a>	      
+	<a href="terminal">terminal</a>
+        <a href="soma">soma</a>
+
+    </div>
+
+    <!-- Video -->
+    <div id="video-container">
+        <video id="kurtyzana" controls>
+            <source src="media/videos/bcs.mp4" type="video/mp4">
+            Error.
+        </video>
+    </div>
+
+    <!-- Corner image-->
+    <img src="/media/images/lain.png" alt="corner Image" class="corner-image">
+
+    <!-- Video script -->
+    <script>
+        const video = document.getElementById("kurtyzana");
+
+        function playPause() 
+        {
+            if (video.paused) 
+            {
+                video.play();
+            } else 
+            {
+                video.pause();
+            }
+        }
+        function stopVideo() 
+        {
+            video.pause();
+            video.currentTime = 0;
+}
+</body>
+</html>

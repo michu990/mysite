@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='shortcut icon' href='media/images/icon.png' type='image/png'/>	
+    <style>
+        /* Timer styling */
+        #y2k38-timer {
+            text-align: center;
+            padding: 20px;
+            margin: 0 auto;
+            background: transparent;
+            max-width: 800px;
+            font-family: Courier;
+        }
+        
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .countdown-box {
+            background: transparent;
+            padding: 20px;
+            min-width: 100px;
+        }
+        
+        .countdown-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #00ff00;
+            font-family: Courier;
+            letter-spacing: 2px;
+            
+        }
+    </style>
+</head>
+<body>
+    <!-- Nav bar -->
+    <div id="navbar">
+        <a href="welcome.html">home</a>
+        <a href="tesseract.html">tesseract</a>
+        <a href="/piwnica">piwnica</a>
+        <a href="secret.html">secret</a>
+    </div>
+
+    <!-- Content -->
+    <div id="content">
+        <!-- Y2K38 Countdown Timer -->
+        <div id="y2k38-timer">
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="days">00</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="hours">00</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="minutes">00</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="seconds">00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3body simulation balls -->
+    <div id="body1" class="body"></div>
+    <div id="body2" class="body"></div>
+    <div id="body3" class="body"></div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p>by <a href="https://github.com/michu990" target="_blank" rel="noopener noreferrer">michu990</a> | hosted on <a href="https://mikr.us/?r=michu990" target="_blank" rel="noopener noreferrer">MIKR.US </a></p>
+        <p><p class="tbp">Three Body Problem simulation by <a href="https://github.com/SolbiatiAlessandro/three-body" target="_blank" rel="noopener noreferrer">Alessandro Solbiati </p></a>
+        <div id="time"></div>
+
+    <!-- 3body script -->
+    <script src="three_body.js"></script>
+    <div id="app">
+        <div id="three-body-animation" state="on"></div>
+
+    </div>
+
+    <!-- Time script -->
+    <script>
+    function startTime() 
+    {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        var day = today.getDate();
+        var month = today.getMonth() + 1; // Months are 0-indexed
+        var year = today.getFullYear();
+        
+        h = checkTime(h);
+        m = checkTime(m);
+        s = checkTime(s);
+        day = checkTime(day);
+        month = checkTime(month);
+        
+        // Display both date and time
+        document.getElementById('time').innerHTML = year + "-" + month + "-" + day + " " + h + ":" + m + ":" + s;
+        var t = setTimeout(function(){ startTime() }, 500);
+    }
+    
+    function checkTime(i) 
+    {
+        if (i < 10) { i = "0" + i };
+        return i;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() 
+    {
+        startTime();
+    });
+</script>
+
+    <!-- Y2K38 Countdown Timer Script -->
+    <script>
+        // Target date: Tuesday, 19 January 2038, 03:14:07 UTC
+        const targetDate = new Date(Date.UTC(2038, 0, 19, 3, 14, 7)); // Month is 0-indexed (0 = January)
+        
+        function updateCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+            
+            if (difference <= 0) {
+                // Timer has reached zero
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.getElementById('timer-message').innerHTML = 'END';
+                return;
+            }
+            
+            // Calculate time units
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            
+            // Update display with leading zeros
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+        }
+        
+        // Update immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+
+    <!-- 3body script on/off -->
+    <script>
+        const threeBodyAnimationOn = function () 
+        {
+          const state = document.getElementById("three-body-animation").getAttribute("state");
+          return state === "on";
+        }
+      </script>
+</body>
+</html>
