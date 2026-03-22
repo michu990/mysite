@@ -120,7 +120,7 @@
 
     <!-- Minimal Control Panel -->
     <div class="control-panel">
-        <button id="toggleRotateBtn">pause</button>
+        <button id="toggleRotateBtn">start</button>
         <div class="speed-control">
             <span class="speed-label">speed</span>
             <input type="range" id="speedSlider" min="0" max="0.5" step="0.005" value="0.25">
